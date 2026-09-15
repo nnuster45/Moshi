@@ -1,0 +1,6 @@
+{
+  "name": "MM Track ตรวจอาร์ตเวิร์ก",
+  "description": "ระบบตรวจและอนุมัติอาร์ตเวิร์กสินค้า Moshi Moshi Retail พร้อมเครื่องมือวาดแก้ไขและใส่คอมเมนต์",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

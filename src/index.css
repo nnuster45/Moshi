@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0F1E25;
+  --body: #33474F;
+  --mut: #61757D;
+  --faint: #97A4AA;
+  --line: #E2E8EA;
+  --hair: #EDF1F2;
+  --wash: #F7F9FA;
+  --paper: #FFFFFF;
+  --blue: #0C6FA8;
+  --warn: #E0502B;
+  --ok: #2E7A56;
+  --stage: #EDF1F2;
+  --ui: "Noto Sans Thai", "Leelawadee UI", "Sukhumvit Set", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+
+body {
+  font-family: var(--ui);
+  color: var(--ink);
+  background-color: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono-code {
+  font-family: var(--mono);
+}
+
