@@ -60,29 +60,6 @@ export const DoneScreen: React.FC<DoneScreenProps> = ({
         <h2 id="dh" className="text-[21px] m-0 font-bold text-[#0F1E25]">
           {isFix ? 'ส่งกลับให้แก้แล้ว' : 'อนุมัติทั้งหมดแล้ว'}
         </h2>
-
-        {/* Summary tag chips */}
-        <div
-          id="dsum"
-          className="flex gap-2.5 flex-wrap justify-center mt-0.5 max-w-md"
-        >
-          {task.pages.map((p) => {
-            const hasFix = p.strokes.length > 0 || Boolean(p.comment);
-            return (
-              <span
-                key={p.id}
-                id={`summary-chip-${p.id}`}
-                className={`text-[13px] border rounded-full px-3.5 py-1.5 font-medium transition-colors ${
-                  hasFix
-                    ? 'border-[#E0502B]/30 text-[#E0502B] bg-[#FBF1E8]/50'
-                    : 'border-[#2E7A56]/30 text-[#2E7A56] bg-[#EEF5F1]/50'
-                }`}
-              >
-                {p.tag} · {hasFix ? 'ขอแก้' : 'ผ่าน'}
-              </span>
-            );
-          })}
-        </div>
       </div>
 
       {/* Bottom Action Row */}

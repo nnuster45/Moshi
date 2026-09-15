@@ -87,10 +87,11 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
   }, []);
 
   // Calculate plate dimensions ensuring it fits comfortably on phone screens and desktop
-  const paddingH = 28;
-  const paddingV = 28;
-  const maxAvailableWidth = Math.max(260, stageSize.width - paddingH);
-  const maxAvailableHeight = Math.max(160, stageSize.height - paddingV);
+  const isMobile = stageSize.width < 640;
+  const paddingH = isMobile ? 12 : 28;
+  const paddingV = isMobile ? 12 : 28;
+  const maxAvailableWidth = Math.max(240, stageSize.width - paddingH);
+  const maxAvailableHeight = Math.max(140, stageSize.height - paddingV);
 
   let plateWidth = maxAvailableWidth;
   let plateHeight = plateWidth / AR;
@@ -103,9 +104,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
     plateHeight = Math.round(plateHeight);
   }
 
-  // Ensure positive values
-  plateWidth = Math.max(260, plateWidth);
-  plateHeight = Math.max(145, plateHeight);
+  // Ensure valid bounded positive values
+  plateWidth = Math.min(stageSize.width - (isMobile ? 8 : 16), Math.max(220, plateWidth));
+  plateHeight = Math.min(stageSize.height - (isMobile ? 8 : 16), Math.max(120, plateHeight));
 
   const currentPage = pages[activeIndex] || pages[0];
   const isMarked = (p: ArtworkPage) =>
@@ -418,14 +419,14 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
       {/* Top Header */}
       <div
         id="review-header"
-        className="flex-none flex items-center gap-3 px-[22px] py-[14px] border-b border-[#EDF1F2] pt-[calc(14px+env(safe-area-inset-top,0px))] max-sm:px-4 max-sm:py-3"
+        className="flex-none flex items-center gap-2.5 px-4 py-2.5 sm:px-[22px] sm:py-[14px] border-b border-[#EDF1F2] pt-[calc(8px+env(safe-area-inset-top,0px))] sm:pt-[calc(14px+env(safe-area-inset-top,0px))]"
       >
         <button
           id="back"
           type="button"
           onClick={onBackToList}
           aria-label="กลับไปที่รายการ"
-          className="w-[34px] h-[34px] flex-none rounded-[9px] border border-[#E2E8EA] flex items-center justify-center text-[#61757D] hover:bg-[#F7F9FA] transition-colors"
+          className="w-8 h-8 sm:w-[34px] sm:h-[34px] flex-none rounded-[8px] border border-[#E2E8EA] flex items-center justify-center text-[#61757D] hover:bg-[#F7F9FA] transition-colors"
         >
           <ChevronLeft className="w-4 h-4 stroke-[2.4]" />
         </button>
@@ -433,13 +434,13 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
         <div className="min-w-0">
           <b
             id="h-title"
-            className="block text-[17px] font-bold leading-[1.3] text-[#0F1E25] truncate"
+            className="block text-[15px] sm:text-[17px] font-bold leading-tight text-[#0F1E25] truncate"
           >
             {task.name}
           </b>
           <span
             id="h-sub"
-            className="block text-[12.5px] text-[#97A4AA] mt-[2px] truncate"
+            className="block text-[11px] sm:text-[12.5px] text-[#97A4AA] mt-[1px] truncate"
           >
             {task.coll} · {task.designer} · รอบที่ {task.round}
           </span>
@@ -451,7 +452,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           type="button"
           disabled={!isAllReady}
           onClick={handleSubmit}
-          className={`ml-auto flex-none h-10 px-5 rounded-[10px] text-[14.5px] font-bold flex items-center transition-all ${
+          className={`ml-auto flex-none h-8 sm:h-10 px-3.5 sm:px-5 rounded-[8px] sm:rounded-[10px] text-[13px] sm:text-[14.5px] font-bold flex items-center transition-all ${
             !isAllReady
               ? 'bg-[#F7F9FA] text-[#97A4AA] border border-[#E2E8EA] cursor-not-allowed opacity-75'
               : 'bg-[#0C6FA8] text-white hover:bg-[#095b8a] shadow-sm cursor-pointer'
@@ -468,7 +469,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
       {/* Variant Tabs Header */}
       <div
         id="tags"
-        className="flex-none flex gap-[9px] px-[22px] py-3 border-b border-[#EDF1F2] overflow-x-auto max-sm:px-4 max-sm:py-2.5"
+        className="flex-none flex gap-2 sm:gap-[9px] px-3.5 sm:px-[22px] py-2 sm:py-3 border-b border-[#EDF1F2] overflow-x-auto"
       >
         {pages.map((p, i) => {
           const st = getPageState(p);
@@ -480,7 +481,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
               type="button"
               aria-current={isCurrent ? 'true' : 'false'}
               onClick={() => handleSelectPage(i)}
-              className={`flex-none flex items-center gap-2 h-[38px] px-[15px] rounded-full text-[14px] whitespace-nowrap transition-colors ${
+              className={`flex-none flex items-center gap-1.5 sm:gap-2 h-8 sm:h-[38px] px-3 sm:px-[15px] rounded-full text-[13px] sm:text-[14px] whitespace-nowrap transition-colors ${
                 isCurrent
                   ? 'bg-[#0F1E25] border border-[#0F1E25] text-white font-semibold'
                   : 'bg-white border border-[#E2E8EA] text-[#33474F] hover:bg-[#F7F9FA]'
@@ -488,7 +489,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
             >
               <span>{p.tag}</span>
               <span
-                className={`text-[12px] font-semibold ${
+                className={`text-[11px] sm:text-[12px] font-semibold ${
                   isCurrent
                     ? st === 'pass'
                       ? 'text-[#7DD3A8]'
@@ -700,7 +701,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
       {/* Bottom Tool Bar */}
       <div
         id="review-toolbar"
-        className="flex-none flex items-center gap-2.5 px-[22px] py-3 border-t border-[#EDF1F2] bg-white pb-[calc(12px+env(safe-area-inset-bottom,0px))] max-sm:px-3.5 max-sm:py-2.5 max-sm:flex-wrap"
+        className="flex-none flex items-center gap-2 sm:gap-2.5 px-3 py-2 sm:px-[22px] sm:py-3 border-t border-[#EDF1F2] bg-white pb-[calc(8px+env(safe-area-inset-bottom,0px))] sm:pb-[calc(12px+env(safe-area-inset-bottom,0px))]"
       >
         {/* Draw Pen Tool */}
         <button
@@ -710,13 +711,13 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           aria-label="วาดบนภาพ"
           onClick={handleTogglePen}
           title="วาดเส้นเพื่อชี้จุดแก้ไข"
-          className={`w-[46px] h-[46px] flex-none rounded-[12px] border flex items-center justify-center transition-colors ${
+          className={`w-10 h-10 sm:w-[46px] sm:h-[46px] flex-none rounded-[10px] sm:rounded-[12px] border flex items-center justify-center transition-colors ${
             isPenActive
               ? 'bg-[#0F1E25] border-[#0F1E25] text-white'
               : 'bg-white border-[#E2E8EA] text-[#61757D] hover:bg-[#F7F9FA]'
           }`}
         >
-          <Edit2 className="w-5 h-5 stroke-[2]" />
+          <Edit2 className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2]" />
         </button>
 
         {/* Undo Stroke Tool */}
@@ -727,9 +728,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           aria-label="ลบเส้นล่าสุด"
           onClick={handleUndo}
           title="ลบเส้นวาดล่าสุด"
-          className="w-[46px] h-[46px] flex-none rounded-[12px] border border-[#E2E8EA] bg-white flex items-center justify-center text-[#61757D] disabled:opacity-35 disabled:cursor-not-allowed hover:bg-[#F7F9FA] transition-colors"
+          className="w-10 h-10 sm:w-[46px] sm:h-[46px] flex-none rounded-[10px] sm:rounded-[12px] border border-[#E2E8EA] bg-white flex items-center justify-center text-[#61757D] disabled:opacity-35 disabled:cursor-not-allowed hover:bg-[#F7F9FA] transition-colors"
         >
-          <Undo2 className="w-5 h-5 stroke-[2]" />
+          <Undo2 className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2]" />
         </button>
 
         {/* Comment Button */}
@@ -737,15 +738,15 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           id="add"
           type="button"
           onClick={() => setIsCommentModalOpen(true)}
-          className={`flex-1 min-w-0 h-[46px] rounded-[12px] border flex items-center gap-2.5 px-4 text-[14.5px] transition-colors max-sm:order-3 max-sm:w-full max-sm:flex-[1_1_100%] ${
+          className={`flex-1 min-w-0 h-10 sm:h-[46px] rounded-[10px] sm:rounded-[12px] border flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 text-[13px] sm:text-[14.5px] transition-colors ${
             currentPage.comment
               ? 'border-[#0F1E25] text-[#0F1E25] bg-white font-medium'
               : 'border-[#E2E8EA] text-[#61757D] bg-white hover:bg-[#F7F9FA]'
           }`}
         >
-          <Plus className="w-5 h-5 flex-none stroke-[2]" />
+          <Plus className="w-4 h-4 sm:w-5 sm:h-5 flex-none stroke-[2]" />
           <span id="addtx" className="min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
-            {currentPage.comment || 'เพิ่มคอมเมนต์'}
+            {currentPage.comment || 'คอมเมนต์'}
           </span>
         </button>
 
@@ -756,7 +757,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           disabled={isMarked(currentPage)}
           aria-pressed={currentPage.pass ? 'true' : 'false'}
           onClick={handleTogglePass}
-          className={`flex-none h-[46px] px-[18px] rounded-[12px] border flex items-center gap-2 text-[14.5px] font-semibold whitespace-nowrap transition-colors max-sm:ml-auto ${
+          className={`flex-none h-10 sm:h-[46px] px-3 sm:px-[18px] rounded-[10px] sm:rounded-[12px] border flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-[14.5px] font-semibold whitespace-nowrap transition-colors ${
             isMarked(currentPage)
               ? 'border-[#E2E8EA] text-[#97A4AA] bg-white opacity-55 cursor-not-allowed'
               : currentPage.pass
@@ -764,9 +765,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
               : 'border-[#E2E8EA] text-[#2E7A56] bg-white hover:bg-[#EEF5F1]'
           }`}
         >
-          <Check className="w-[18px] h-[18px] stroke-[2.4]" />
+          <Check className="w-4 h-4 sm:w-[18px] sm:h-[18px] stroke-[2.4]" />
           <span id="passtx">
-            {currentPage.pass ? 'ผ่านแล้ว' : 'ผ่านลายนี้'}
+            {currentPage.pass ? 'ผ่านแล้ว' : 'ผ่าน'}
           </span>
         </button>
       </div>

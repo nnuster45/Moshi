@@ -57,7 +57,7 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div id="mm-track-app" className="flex h-screen w-full overflow-hidden bg-white">
+      <div id="mm-track-app" className="flex h-screen h-[100dvh] w-full overflow-hidden bg-white">
         {/* Sidebar for Desktop */}
         <Sidebar
           todoCount={isTaskSent ? 0 : 1}
